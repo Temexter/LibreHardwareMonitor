@@ -24,7 +24,7 @@ public class SensorGadget : Gadget
     private const int RightBorder = 7;
 
     private readonly UnitManager _unitManager;
-    private Image _back = Utilities.EmbeddedResources.GetImage("gadget.png");
+    private Image _back = Utilities.EmbeddedResources.GetImage("gadget_light.png");
     private Image _image;
     private Image _fore;
     private Image _barBack = Utilities.EmbeddedResources.GetImage("barback.png");
@@ -564,13 +564,13 @@ public class SensorGadget : Gadget
         {
             Graphics g = e.Graphics;
             int w = Size.Width;
-    
+
             g.Clear(Color.Transparent);
             DrawBackground(g);
-    
+
             int x;
             int y = _topMargin;
-    
+
             if (_sensors.Count == 0)
             {
                 x = LeftBorder + 1;
@@ -579,7 +579,7 @@ public class SensorGadget : Gadget
                              _smallFont, _textBrush,
                              new Rectangle(x, y - 1, w - RightBorder - x, 0));
             }
-    
+
             foreach (KeyValuePair<IHardware, IList<ISensor>> pair in _sensors)
             {
                 if (_hardwareNames.Value)
@@ -593,18 +593,18 @@ public class SensorGadget : Gadget
                     g.DrawString(pair.Key.Name, _largeFont, _textBrush, new Rectangle(x, y - 1, w - RightBorder - x, 0), _stringFormat);
                     y += _hardwareLineHeight;
                 }
-    
+
                 foreach (ISensor sensor in pair.Value)
                 {
-                    int remainingWidth;    
-    
+                    int remainingWidth;
+
                     if ((sensor.SensorType != SensorType.Load &&
                          sensor.SensorType != SensorType.Control &&
                          sensor.SensorType != SensorType.Level &&
                          sensor.SensorType != SensorType.Humidity) || !sensor.Value.HasValue)
                     {
                         string formatted;
-    
+
                         if (sensor.Value.HasValue)
                         {
                             string format = "";
@@ -656,7 +656,7 @@ public class SensorGadget : Gadget
                                     format = "{0:F1} µS/cm";
                                     break;
                             }
-    
+
                             if (sensor.SensorType == SensorType.Temperature && _unitManager.TemperatureUnit == TemperatureUnit.Fahrenheit)
                             {
                                 formatted = $"{UnitManager.CelsiusToFahrenheit(sensor.Value):F1} °F";
@@ -715,9 +715,9 @@ public class SensorGadget : Gadget
                         {
                             formatted = "-";
                         }
-    
+
                         g.DrawString(formatted, _smallFont, _textBrush, new RectangleF(-1, y - 1, w - _rightMargin + 3, 0), _alignRightStringFormat);
-    
+
                         remainingWidth = w - (int)Math.Floor(g.MeasureString(formatted, _smallFont, w, StringFormat.GenericTypographic).Width) - _rightMargin;
                     }
                     else
@@ -725,7 +725,7 @@ public class SensorGadget : Gadget
                         DrawProgress(g, w - _progressWidth - _rightMargin, y + 0.35f * _sensorLineHeight, _progressWidth, 0.6f * _sensorLineHeight, 0.01f * sensor.Value.Value);
                         remainingWidth = w - _progressWidth - _rightMargin;
                     }
-    
+
                     remainingWidth -= _leftMargin + 2;
                     if (remainingWidth > 0)
                     {
